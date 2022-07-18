@@ -6,3 +6,4 @@ Dockerfile
 **/obj/
 *.DotSettings
 *.sln
+*.user
