@@ -109,7 +109,7 @@ namespace CovidDataSetsApi.Repositories
             }
         }
 
-           //todo: finish CRUD methods for Data Set table records
+        //todo: finish CRUD methods for Data Set table records
         //public async Task<GeneralResponse> DeleteCovidDataSet()
         //{
         //    try
@@ -125,15 +125,16 @@ namespace CovidDataSetsApi.Repositories
 
 
         /// <summary>
-        /// 
+        /// Calls the RDS API endpoint that gets the "Visualize COVID-19 cases over time in the U.S." data set (json) and maps it from json to
+        /// CasesOverTimeDto.
         /// </summary>
         /// <returns></returns>
         /// <author>Sebastian R. Papanikolaou-Costa</author>
         public async Task<List<CasesOvertimeUsDto>> GetCovidCasesOverTimeInTheUs(Guid dataSetId)
         {
             var dtoList = new List<CasesOvertimeUsDto>();
-            var url = await _db.CovidDataSets.Where(ds => ds.Id == dataSetId).Select(d => d.DataSetPublicUrl).FirstOrDefaultAsync();
-            //var url = _configuration.GetValue<string>("BaseUrl") + _configuration.GetValue<
+            var url = await _db.CovidDataSets.AsNoTracking().Where(ds => ds.Id == dataSetId).Select(d => d.DataSetPublicUrl).FirstOrDefaultAsync();
+
             var response = await _httpClient.GetStringAsync(url);
             var responseAsJson = JsonNode.Parse(response);
 
@@ -141,7 +142,8 @@ namespace CovidDataSetsApi.Repositories
             {
                 dtoList.Add(
                     new CasesOvertimeUsDto
-                    {
+                    {   Id = Guid.NewGuid(),
+                        CovidDataSetId = dataSetId,
                         DateStamp = item["date_stamp"]!.GetValue<DateTime>(),
                         CountConfirmed = item["cnt_confirmed"]!.GetValue<int>(),
                         CountDeath = item["cnt_death"]!.GetValue<int>(),
@@ -155,7 +157,8 @@ namespace CovidDataSetsApi.Repositories
 
 
         /// <summary>
-        /// 
+        /// If CovidCasesOverTimeUsa table has not been populated yet, it will perform the operation to populate the table by calling the RDS API endpoint
+        /// that is stored in the DB for that data set.
         /// </summary>
         /// <returns></returns>
         /// <author>Sebastian R. Papanikoloau-Costa</author>
@@ -163,22 +166,25 @@ namespace CovidDataSetsApi.Repositories
         {
             try
             {
-                var getDataSetsTable = await _db.CovidDataSets.Select(x => x).ToListAsync();
-                var getCasesOverTimeTable = await _db.CovidCasesOverTimeUsa.Select(x => x).ToListAsync();
+                var getCasesOverTimeTable = await _db.CovidCasesOverTimeUsa.AsNoTracking().Select(x => x).ToListAsync();
 
-                if (getCasesOverTimeTable.Count() == 0 && getDataSetsTable.Count() == 0)
+                if (getCasesOverTimeTable.Count() == 0)
                 {
-                    
-                    
                     
                     var getDataToPopulateCasesOverTimeTable = _mapper.Map<List<CovidCasesOverTimeUsa>>(await GetCovidCasesOverTimeInTheUs(dataSetId));
 
+                    await _db.CovidCasesOverTimeUsa.AddRangeAsync(getDataToPopulateCasesOverTimeTable);
+                    
+                    await _db.SaveChangesAsync();
+
+                    return new GeneralResponse {Success = true};
 
                 }
 
                 return new GeneralResponse
                 {
-
+                    Success = false,
+                    Errors = "Table is already populated with the Data Set"
                 };
             }
             catch (Exception ex)

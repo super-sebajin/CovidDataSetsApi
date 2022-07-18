@@ -28,6 +28,10 @@ namespace CovidDataSetsApi.DataAccessLayer
         [Required]
         public int CountRecovered { get; set; }
 
+        //[Column("CovidDataSetId")]
+        [ForeignKey(nameof(CovidDataSets.Id))]
+        public Guid CovidDataSetId { get; set; }
+
         [InverseProperty(nameof(CovidDataSets.CovidCasesOverTimesUsa))]
         public CovidDataSets  CovidDataSet { get; set; }
 

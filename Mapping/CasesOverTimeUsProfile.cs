@@ -10,6 +10,7 @@ namespace CovidDataSetsApi.Mapping
         {
             CreateMap<CovidCasesOverTimeUsa, CasesOvertimeUsDto>()
                 .ForMember(dest => dest.Id, opts => opts.MapFrom(x => x.Id))
+                .ForMember(dest => dest.CovidDataSetId, opts => opts.MapFrom(x => x.CovidDataSetId))
                 .ForMember(dest => dest.DateStamp, opts => opts.MapFrom(x => x.DateStamp))
                 .ForMember(dest => dest.CountConfirmed, opts => opts.MapFrom(x => x.CountConfirmed))
                 .ForMember(dest => dest.CountDeath, opts => opts.MapFrom(x => x.CountDeath))
@@ -17,6 +18,7 @@ namespace CovidDataSetsApi.Mapping
 
             CreateMap<CasesOvertimeUsDto, CovidCasesOverTimeUsa>()
                 .ForMember(dest => dest.Id, opts => opts.UseDestinationValue())
+                .ForMember(dest => dest.CovidDataSetId, opts => opts.MapFrom(x => x.CovidDataSetId))
                 .ForMember(dest => dest.DateStamp, opts => opts.MapFrom(x => x.DateStamp))
                 .ForMember(dest => dest.CountConfirmed, opts => opts.MapFrom(x => x.CountConfirmed))
                 .ForMember(dest => dest.CountDeath, opts => opts.MapFrom(x => x.CountDeath))

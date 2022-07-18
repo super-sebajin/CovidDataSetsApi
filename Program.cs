@@ -15,7 +15,7 @@ builder.Configuration
 builder.Services.AddDbContext<CovidDataSetsDbContext>(
     options => options.UseSqlServer(connectionString:
         builder.Configuration.GetValue<string>("ConnectionStrings:CovidDataSetsDatabase"),
-        x=>x.MigrationsAssembly("CovidReportsApi"))
+        x=>x.MigrationsAssembly("CovidDataSetsApi"))
 );
 
 
