@@ -1,6 +1,7 @@
 # CovidDataSetsApi
 CovidDataSetsApi is a ASP.NET Core Web API that exposes endpoints to gather data from various public data sets related to the ongoing SARS-CoV-2 virus pandemic,
-and stores them in a relational database.
+and stores them in a relational database. 
+- Main development branch is `dev1`
 
 ## Data Sets Currently In Use:
 
