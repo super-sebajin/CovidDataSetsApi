@@ -11,13 +11,20 @@ namespace CovidDataSetsApi.DataAccessLayer
         [Required]
         public Guid Id { get; set; }
 
+        [Column("DataSetProviderShortName")]
+        [Required]
+        public string? DataSetProviderShortName { get; set; }
+
+        [Column("DataSetProviderLongName")]
+        [Required]
+        public string? DataSetProviderLongName { get; set; }
+        
         [Column("DataSetName")]
         [Required]
         [StringLength(150)]
         public string DataSetName { get; set; }
 
         [Column("DataSetPublicUrl")]
-        
         public string DataSetPublicUrl { get; set; }
 
         [Column("DataSetPublicUrlHttpMethod")]

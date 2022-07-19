@@ -3,6 +3,7 @@ using AutoMapper;
 using CovidDataSetsApi.DataAccessLayer;
 using CovidDataSetsApi.Dto;
 using CovidDataSetsApi.ResponseObjects;
+using CovidDataSetsApi.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CovidDataSetsApi.Repositories
@@ -10,7 +11,7 @@ namespace CovidDataSetsApi.Repositories
     /// <summary>
     /// 
     /// </summary>
-    public interface IRichDataServicesDataSetsRepository
+    public interface IRichDataServicesDataSetsRepository : IPurgeableRepository
     {
         Task<GeneralResponse> PopulateCovidCasesOverTimeUsaTable(Guid dataSetId);
         Task<List<CasesOvertimeUsDto>> GetVisualizeCOVID19CasesOverTimeInTheUsDataSet();
@@ -116,7 +117,7 @@ namespace CovidDataSetsApi.Repositories
             var response = await _httpClient.GetStringAsync(url);
             var responseAsJson = JsonNode.Parse(response);
 
-            foreach (var item in responseAsJson["dataProvider"].AsArray())
+            foreach (var item in responseAsJson!["dataProvider"]!.AsArray())
             {
                 dtoList.Add(
                     new CasesOvertimeUsDto
@@ -139,10 +140,10 @@ namespace CovidDataSetsApi.Repositories
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<GeneralResponse> PurgeVisualizeCovidCasesOverTimeInUsaTable()
+        public async Task<GeneralResponse> PurgeTable()
         {
             try
-            {
+            {   
                 var getTable = _db.CovidCasesOverTimeUsa.Select(rec => rec);
                 _db.CovidCasesOverTimeUsa.RemoveRange(getTable);
                 await _db.SaveChangesAsync();

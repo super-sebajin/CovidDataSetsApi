@@ -72,6 +72,26 @@ namespace CovidDataSetsApi.Controllers
                 return StatusCode(500, "An error has occurred with your request");
             }
         }
+                                         
+        /// <summary>
+        /// Purges whole table to reinsert the data set again (to get new updates [if applicable])
+        /// </summary>
+        /// <param name="dataSetId"></param>
+        /// <returns></returns>
+        [HttpDelete("Purge")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> Purge()
+        {
+            try
+            {
+                return Ok(await _repository.PurgeTable());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "");
+            }
+        }
 
 
 
