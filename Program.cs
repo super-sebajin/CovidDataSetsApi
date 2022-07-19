@@ -28,7 +28,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 
+//Dependency injection for repository methods in controllers
 builder.Services.AddScoped<IDataSetsRepository, DataSetsRepository>();
+builder.Services.AddScoped<IRichDataServicesDataSetsRepository, RichDataServicesDataSetsRepository>();
 
 
 //build the app

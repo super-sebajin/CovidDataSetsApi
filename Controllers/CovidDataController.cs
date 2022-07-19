@@ -20,27 +20,6 @@ namespace CovidDataSetsApi.Controllers
         }
 
 
-        /// <summary>
-        /// Test endpoint to verify that things are working well
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("GetDatasetTest")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetDatasetTest()
-        {
-            try
-            {
-
-                var dataSetId = Guid.Parse("11165CAA-E725-4BB0-B020-1D8A638A97A2");
-                return Ok(await _repository.GetCovidCasesOverTimeInTheUs(dataSetId));
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex, "An error has occurred while handling your request");
-                return StatusCode(500, "An error has occurred while handling your request");
-            }
-        }
 
         /// <summary>
         /// 
@@ -58,7 +37,7 @@ namespace CovidDataSetsApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,"");
+                _logger.LogError(ex, "An error has occurred while handling your request");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -87,25 +66,7 @@ namespace CovidDataSetsApi.Controllers
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost("InsertCasesOverTimeUsDataSet/{dataSetId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> InsertCasesOverTimeUsaDataSet(Guid dataSetId)
-        {
-            try
-            {
-                return Ok(await _repository.PopulateCovidCasesOverTimeUsaTable(dataSetId));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error has occurred while handling your request");
-                return StatusCode(500, "An error has occurred while handling your request");
-            }
-        }
+
 
 
 
