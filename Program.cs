@@ -1,3 +1,4 @@
+using System.Reflection;
 using CovidDataSetsApi.DataAccessLayer;
 using CovidDataSetsApi.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,11 @@ builder.Services.AddControllers();
 
 //build Services
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var filePath = Path.Combine(AppContext.BaseDirectory, "CovidDataSetsApi.xml");
+    options.IncludeXmlComments(filePath,includeControllerXmlComments: true);
+});
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 

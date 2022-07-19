@@ -17,7 +17,13 @@ namespace CovidDataSetsApi.Controllers
         }
 
 
+        /// <summary>
+        /// Gets the contents of the  CovidCasesOverTimeUsa table in the db, if empty, will return an empty json
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetVisualizeCOVID19CasesOverTimeInTheUsDataSet")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetVisualizeCOVID19CasesOverTimeInTheUsDataSet()
         {
             try
@@ -34,7 +40,10 @@ namespace CovidDataSetsApi.Controllers
 
 
         /// <summary>
-        /// In the meantime, should insert (in bulk) the entire RDS data set returned by the HTTP GET method that is
+        /// Inserts in bulk, the data set for "Visualize COVID-19 cases over time in the U.S" in to its respective table.
+        /// The Api assumes that a record for this data set exists in the CovidDataSets table.
+        /// If CovidCasesOverTimeUsa table has not been populated yet,
+        /// it will perform the operation to populate the table by calling the RDS API endpoint that is stored in the DB for that data set.
         /// stored in the DB for the {datasetId}.
         /// </summary>
         /// <param name="dataSetId"></param>

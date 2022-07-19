@@ -22,7 +22,7 @@ namespace CovidDataSetsApi.Controllers
 
 
         /// <summary>
-        /// 
+        ///  Inserts a single record in to the CovidDataSets Table
         /// </summary>
         /// <param name="dataSet"></param>
         /// <returns></returns>
@@ -44,7 +44,7 @@ namespace CovidDataSetsApi.Controllers
 
 
         /// <summary>
-        /// 
+        /// Updates a single record in the CovidDataSets Table
         /// </summary>
         /// <param name="dataSet"></param>
         /// <returns></returns>
