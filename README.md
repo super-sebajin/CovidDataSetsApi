@@ -4,4 +4,4 @@
 and stores them in a SQLExpress database. 
 - This project uses a "code-first" approach via the use of migrations, so to run this project, SQLServer Express should be installed.
 - When project is done, this README will be more thorough.
-- main development branch is CovidDataSetsApi/tree/dev1 , and will be merged with main branch when project is finsihed.
+- main development branch is CovidDataSetsApi/tree/dev1 , and will be merged with main branch when project is finished.
