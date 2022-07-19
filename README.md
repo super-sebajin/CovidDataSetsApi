@@ -29,7 +29,7 @@ and stores them in a SQLExpress database.
   },
   "AllowedHosts": "*"
 }
-```,
+```
 then make sure that the proper services are configured in the `Program.cs` for use with the database engine that will be used.
 - Run `dotnet ef migrations add InitialCreate` and the Entity Framework will go ahead and create the tables based on the entities in the project's `DataAccessLayer` folder.
  
