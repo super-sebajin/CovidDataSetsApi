@@ -2,12 +2,21 @@
 using CovidDataSetsApi.Repositories;
 namespace CovidDataSetsApi.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class RichDataServicesDataSetsController : ControllerBase
     {
         private readonly IRichDataServicesDataSetsRepository _repository;
         private readonly ILogger<RichDataServicesDataSetsController> _logger;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="logger"></param>
         public RichDataServicesDataSetsController(
             IRichDataServicesDataSetsRepository repository,
             ILogger<RichDataServicesDataSetsController> logger)

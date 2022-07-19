@@ -7,13 +7,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CovidDataSetsApi.Repositories
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IRichDataServicesDataSetsRepository
     {
         Task<GeneralResponse> PopulateCovidCasesOverTimeUsaTable(Guid dataSetId);
         Task<List<CasesOvertimeUsDto>> GetVisualizeCOVID19CasesOverTimeInTheUsDataSet();
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class RichDataServicesDataSetsRepository : IRichDataServicesDataSetsRepository
     {
         private readonly ILogger<RichDataServicesDataSetsRepository> _logger;
@@ -21,6 +26,12 @@ namespace CovidDataSetsApi.Repositories
         private readonly CovidDataSetsDbContext _db;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="db"></param>
+        /// <param name="mapper"></param>
         public RichDataServicesDataSetsRepository(
             ILogger<RichDataServicesDataSetsRepository> logger,
             CovidDataSetsDbContext db,
@@ -31,9 +42,6 @@ namespace CovidDataSetsApi.Repositories
             _db = db;
             _mapper = mapper;
         }
-
-
-
 
         /// <summary>
         /// If CovidCasesOverTimeUsa table has not been populated yet, it will perform the operation to populate the table by calling the RDS API endpoint
@@ -124,6 +132,36 @@ namespace CovidDataSetsApi.Repositories
             }
 
             return dtoList;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GeneralResponse> PurgeVisualizeCovidCasesOverTimeInUsaTable()
+        {
+            try
+            {
+                var getTable = _db.CovidCasesOverTimeUsa.Select(rec => rec);
+                _db.CovidCasesOverTimeUsa.RemoveRange(getTable);
+                await _db.SaveChangesAsync();
+
+                return new GeneralResponse
+                {
+                    Success = true
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error has occurred: ");
+                return new GeneralResponse
+                {
+                    Success = false,
+                    Errors = ex.ToString()
+                };
+            }
+
         }
     }
 }
