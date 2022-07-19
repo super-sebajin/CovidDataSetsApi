@@ -24,11 +24,14 @@ builder.Services.AddControllers();
 
 //build Services
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    var filePath = Path.Combine(AppContext.BaseDirectory, "CovidDataSetsApi.xml");
-    options.IncludeXmlComments(filePath,includeControllerXmlComments: true);
-});
+
+
+builder.Services.AddSwaggerGen();//uncomment if xml documentation comments are disabled for this project 
+//builder.Services.AddSwaggerGen(options =>//enable xml documentation comments for this project, if not enable please comment out
+//{
+//    var filePath = Path.Combine(AppContext.BaseDirectory, "CovidDataSetsApi.xml");
+//    options.IncludeXmlComments(filePath,includeControllerXmlComments: true);
+//});
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
