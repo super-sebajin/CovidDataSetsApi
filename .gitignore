@@ -7,3 +7,4 @@ Dockerfile
 *.DotSettings
 *.sln
 *.csproj.user
+CovidDataSetsApiUnitTests/
