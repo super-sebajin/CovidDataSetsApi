@@ -7,26 +7,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CovidDataSetsApi.Repositories
 {
-    public interface IDataSetsRepository
+    public interface ICovidDataSetsRepository
     {
 
         Task<GenericResponse<CovidDataSetsDto>> InsertCovidDataSet(CovidDataSetsDto dataSetsDto);
 
         Task<GeneralResponse> UpdateCovidDataSetsRecord(CovidDataSetsDto dataSetsDto);
+
+        Task<List<CovidDataSetsDto>> GetAllCovidDataSets();
     }
 
-    public class DataSetsRepository : IDataSetsRepository
+    public class CovidDataSetsRepository : ICovidDataSetsRepository
     {
 
-        private readonly ILogger<DataSetsRepository> _logger;
+        private readonly ILogger<CovidDataSetsRepository> _logger;
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
         private readonly CovidDataSetsDbContext _db;
         private readonly IMapper _mapper;
 
 
-        public DataSetsRepository(
-            ILogger<DataSetsRepository> logger,
+        public CovidDataSetsRepository(
+            ILogger<CovidDataSetsRepository> logger,
             IConfiguration configuration,
             CovidDataSetsDbContext db,
             IMapper mapper)
@@ -38,6 +40,13 @@ namespace CovidDataSetsApi.Repositories
             _mapper = mapper;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<CovidDataSetsDto>> GetAllCovidDataSets() 
+            => _mapper.Map<List<CovidDataSetsDto>>(await _db.CovidDataSets.ToListAsync());
 
 
 
@@ -87,6 +96,8 @@ namespace CovidDataSetsApi.Repositories
                 dataSetRecord!.DataSetName = dataSetsDto.DataSetName;
                 dataSetRecord.DataSetPublicUrl = dataSetsDto.DataSetPublicUrl!;
                 dataSetRecord.DataSetPublicUrlHttpMethod = dataSetsDto.DataSetPublicUrlHttpMethod;
+                dataSetRecord.DataSetProviderLongName = dataSetsDto.DataSetProviderLongName;
+                dataSetRecord.DataSetProviderShortName = dataSetsDto.DataSetProviderShortName;
 
                 await _db.SaveChangesAsync();
 

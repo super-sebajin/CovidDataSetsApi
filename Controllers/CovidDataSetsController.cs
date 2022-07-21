@@ -13,7 +13,7 @@ namespace CovidDataSetsApi.Controllers
     public class CovidDataSetsController : ControllerBase
     {
         private readonly ILogger<CovidDataSetsController> _logger;
-        private readonly IDataSetsRepository _repository;
+        private readonly ICovidDataSetsRepository _repository;
 
         /// <summary>
         /// 
@@ -22,12 +22,32 @@ namespace CovidDataSetsApi.Controllers
         /// <param name="repository"></param>
         public CovidDataSetsController(
             ILogger<CovidDataSetsController> logger,
-            IDataSetsRepository repository)
+            ICovidDataSetsRepository repository)
         {
             _logger = logger;
             _repository = repository;
         }
 
+
+        /// <summary>
+        /// Gets all records from the CovidDataSetsTable
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetCovidDataSets")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetCovidDataSets() 
+        {
+            try 
+            {
+                return Ok(await _repository.GetAllCovidDataSets());
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError(ex,"An error has occurred while handling your request.");
+                return StatusCode(500, "An error has occurred while handling your request.");
+            }
+        }
 
 
         /// <summary>

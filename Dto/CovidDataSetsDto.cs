@@ -6,6 +6,9 @@
         public string DataSetName { get; set; }
         public string? DataSetPublicUrl { get; set; }
         public string DataSetPublicUrlHttpMethod { get; set; }
+        public string DataSetProviderLongName { get; set; }
+        public string DataSetProviderShortName { get; set; }
+
 
     }
 }

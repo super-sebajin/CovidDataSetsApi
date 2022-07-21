@@ -37,7 +37,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 
 //Dependency injection for repository methods in controllers
-builder.Services.AddScoped<IDataSetsRepository, DataSetsRepository>();
+builder.Services.AddScoped<ICovidDataSetsRepository, CovidDataSetsRepository>();
 builder.Services.AddScoped<IRichDataServicesDataSetsRepository, RichDataServicesDataSetsRepository>();
 
 
