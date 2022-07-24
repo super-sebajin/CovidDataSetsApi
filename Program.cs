@@ -15,7 +15,8 @@ builder.Configuration
 
 builder.Services.AddDbContext<CovidDataSetsDbContext>(
     options => options.UseSqlServer(connectionString:
-        builder.Configuration.GetValue<string>("ConnectionStrings:CovidDataSetsDatabase"),
+        //builder.Configuration.GetValue<string>("ConnectionStrings:CovidDataSetsDatabase"),
+        builder.Configuration.GetValue<string>("ConnectionStrings:CovidDataSetsDatabaseDocker"),
         x=>x.MigrationsAssembly("CovidDataSetsApi"))
 );
 
@@ -48,20 +49,20 @@ var app = builder.Build();
 
 
 
-if (app.Environment.IsDevelopment())
-{
-    //configure the HTTP requests pipeline
-    app.UseSwagger();
-    app.UseSwaggerUI();
+// if (app.Environment.IsDevelopment())
+// {
 
-}
+// }
+//configure the HTTP requests pipeline
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
 
 //use routing 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 
 app.MapControllers();

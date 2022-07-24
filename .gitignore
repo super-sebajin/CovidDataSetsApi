@@ -2,9 +2,13 @@
 *.json
 **/bin/
 Dockerfile
+*.yml
 **/.vs/
 **/obj/
 *.DotSettings
 *.sln
 *.csproj.user
 CovidDataSetsApiUnitTests/
+.history/
+*.sh
+*.dcproj
