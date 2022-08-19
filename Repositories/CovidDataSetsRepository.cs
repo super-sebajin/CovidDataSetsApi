@@ -1,21 +1,7 @@
-﻿using System.Text.Json.Nodes;
-using AutoMapper;
-using CovidDataSetsApi.DataAccessLayer;
-using CovidDataSetsApi.Dto;
-using CovidDataSetsApi.ResponseObjects;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 
 namespace CovidDataSetsApi.Repositories
 {
-    public interface ICovidDataSetsRepository
-    {
-
-        Task<GenericResponse<CovidDataSetsDto>> InsertCovidDataSet(CovidDataSetsDto dataSetsDto);
-
-        Task<GeneralResponse> UpdateCovidDataSetsRecord(CovidDataSetsDto dataSetsDto);
-
-        Task<List<CovidDataSetsDto>> GetAllCovidDataSets();
-    }
 
     public class CovidDataSetsRepository : ICovidDataSetsRepository
     {
@@ -55,7 +41,7 @@ namespace CovidDataSetsApi.Repositories
         /// </summary>
         /// <returns></returns>
         /// <author>Sebastian R. Papanikoloau-Costa</author>
-        public async Task<GenericResponse<CovidDataSetsDto>> InsertCovidDataSet(CovidDataSetsDto dataSetsDto)
+        public async Task<CovidDataSetsDto> InsertCovidDataSet(CovidDataSetsDto dataSetsDto)
         {
 
             try
@@ -63,21 +49,13 @@ namespace CovidDataSetsApi.Repositories
 
                 _db.CovidDataSets.Add(_mapper.Map<CovidDataSets>(dataSetsDto));
                 await _db.SaveChangesAsync();
-                return new GenericResponse<CovidDataSetsDto>
-                {
-                    Success = true,
-                    AffectedObject = dataSetsDto
-                };
+                return dataSetsDto;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex,"");
-                return new GenericResponse<CovidDataSetsDto>
-                {
-                    Success = false,
-                    Errors = ex.ToString()
-                };
-            }
+                throw new Exception(nameof(ex));
+            }                       
         }
 
         /// <summary>

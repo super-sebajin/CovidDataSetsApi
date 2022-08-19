@@ -24,6 +24,7 @@ namespace CovidDataSetsApi.DataAccessLayer
 
         public virtual DbSet<CovidDataSets>  CovidDataSets { get; set; }
         public virtual DbSet<CovidCasesOverTimeUsa> CovidCasesOverTimeUsa { get; set; }
+        public virtual DbSet<User> User { get; set; }
 
     }
 }

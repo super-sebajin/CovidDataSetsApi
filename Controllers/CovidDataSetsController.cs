@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using CovidDataSetsApi.Dto;
 using CovidDataSetsApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using CovidDataSetsApi.Interfaces;
 
 namespace CovidDataSetsApi.Controllers
 {
@@ -22,7 +24,7 @@ namespace CovidDataSetsApi.Controllers
         /// <param name="repository"></param>
         public CovidDataSetsController(
             ILogger<CovidDataSetsController> logger,
-            ICovidDataSetsRepository repository)
+            ICovidDataSetsRepository repository) 
         {
             _logger = logger;
             _repository = repository;
@@ -33,14 +35,21 @@ namespace CovidDataSetsApi.Controllers
         /// Gets all records from the CovidDataSetsTable
         /// </summary>
         /// <returns></returns>
-        [HttpGet("GetCovidDataSets")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> GetCovidDataSets() 
+        //[Authorize]
+        public async Task<ActionResult<IEnumerable<CovidDataSetsDto>>> GetCovidDataSets() 
         {
             try 
             {
-                return Ok(await _repository.GetAllCovidDataSets());
+
+                var repoMethod = await _repository.GetAllCovidDataSets();
+                if (repoMethod == null || repoMethod.Count == 0) 
+                {
+                    return NotFound();
+                }
+                return repoMethod;
             }
             catch (Exception ex) 
             {

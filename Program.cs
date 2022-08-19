@@ -1,8 +1,4 @@
-using System.Reflection;
-using CovidDataSetsApi.DataAccessLayer;
-using CovidDataSetsApi.Repositories;
-using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Identity;
 
 //create the application builder
 var builder = WebApplication.CreateBuilder(args);
@@ -27,25 +23,25 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 builder.Services.AddSwaggerGen();//uncomment if xml documentation comments are disabled for this project 
-//builder.Services.AddSwaggerGen(options =>//enable xml documentation comments for this project, if not enable please comment out
-//{
-//    var filePath = Path.Combine(AppContext.BaseDirectory, "CovidDataSetsApi.xml");
-//    options.IncludeXmlComments(filePath,includeControllerXmlComments: true);
-//});
+builder.Services.AddSwaggerGen(options =>//enable xml documentation comments for this project, if not enable please comment out
+{
+    var filePath = Path.Combine(AppContext.BaseDirectory, "CovidDataSetsApi.xml");
+    options.IncludeXmlComments(filePath, includeControllerXmlComments: true);
+});
+
+
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-
 
 //Dependency injection for repository methods in controllers
 builder.Services.AddScoped<ICovidDataSetsRepository, CovidDataSetsRepository>();
 builder.Services.AddScoped<IRichDataServicesDataSetsRepository, RichDataServicesDataSetsRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
 
 
 //build the app
 var app = builder.Build();
-
-
-
 
 
 if (app.Environment.IsDevelopment())
@@ -53,16 +49,13 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 //configure the HTTP requests pipeline
-
-
-
 //use routing 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 
 app.MapControllers();
 

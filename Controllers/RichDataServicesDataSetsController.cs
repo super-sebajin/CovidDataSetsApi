@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using CovidDataSetsApi.Repositories;
+using CovidDataSetsApi.Interfaces;
+
 namespace CovidDataSetsApi.Controllers
 {
     /// <summary>

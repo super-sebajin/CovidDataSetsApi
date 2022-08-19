@@ -1,21 +1,9 @@
 ﻿using System.Text.Json.Nodes;
 using AutoMapper;
-using CovidDataSetsApi.DataAccessLayer;
-using CovidDataSetsApi.Dto;
-using CovidDataSetsApi.ResponseObjects;
-using CovidDataSetsApi.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace CovidDataSetsApi.Repositories
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IRichDataServicesDataSetsRepository : IPurgeableRepository
-    {
-        Task<GeneralResponse> PopulateCovidCasesOverTimeUsaTable(Guid dataSetId);
-        Task<List<CasesOvertimeUsDto>> GetVisualizeCOVID19CasesOverTimeInTheUsDataSet();
-    }
+    
 
     /// <summary>
     /// 
